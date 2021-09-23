@@ -23,7 +23,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.apache.commons.math3.util.FastMath;
 
 import java.util.Arrays;
 
