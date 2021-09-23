@@ -137,19 +137,19 @@ public class Art extends Application implements EventHandler<ActionEvent> {
 //        }
 
         // Sine wave road thing
-//        for (double i = 0; i < 150; i++) {
-//            for (double j = 3; j >= 0; j--) {
-//                double x = 10 * i;
-//                double y = pane.getHeight()/2 - 50*FastMath.sin(i/5 + 0.1*total);
-//                circle(
-//                        x -7*j
-//                        , y + 7*j
-//                        ,
-//                        10
-//                        , new Color(FastMath.abs(FastMath.sin(i)) / (1+j/3),0,0.5* FastMath.abs(FastMath.cos(i)) / (1+j/3), 1)
-//                );
-//            }
-//        }
+        for (double i = 0; i < 150; i++) {
+            for (double j = 3; j >= 0; j--) {
+                double x = 10 * i;
+                double y = pane.getHeight()/2 - 50*Math.sin(i/5 + 0.1*total);
+                circle(
+                        x -7*j
+                        , y + 7*j
+                        ,
+                        10
+                        , new Color(FastMath.abs(FastMath.sin(i)) / (1+j/3),0,0.5* FastMath.abs(FastMath.cos(i)) / (1+j/3), 1)
+                );
+            }
+        }
 
 
         // Bubbles thing
@@ -167,19 +167,19 @@ public class Art extends Application implements EventHandler<ActionEvent> {
 //        }
 
         // Cool spinny lines circle thing
-        double baseCircleSize = 50;
-        int wacky = ((int)slider.getValue() == 0) ? 0 : 1;
-        for (double i = 0; i < 200; i += 0.25) {
-            line(
-                    pane.getWidth()/2 + (baseCircleSize)* FastMath.sin(i) + (wacky * 200 * FastMath.sin(((int)slider.getValue())*0.1*i))
-                    ,pane.getHeight()/2 + (baseCircleSize)*FastMath.cos(i) + (wacky * 200 * FastMath.cos(((int)slider.getValue())*0.1*i))
-                    ,0.5*pane.getWidth() + FastMath.sin(2*i+(0.1*total)) * 0.5* pane.getWidth()
-                    ,0.5*pane.getHeight() + 0.5*pane.getHeight() * FastMath.sin(i)
-                    , Color.hsb(.4*total, 1.0, FastMath.abs(FastMath.sin(i+(.002*total))*0.8))
-                    //, new Color (0, FastMath.abs(FastMath.sin(i+(.002*total))*0.8), 0, 1)
-            );
-        }
-
+//        double baseCircleSize = 50;
+//        int wacky = ((int)slider.getValue() == 0) ? 0 : 1;
+//        for (double i = 0; i < 200; i += 0.25) {
+//            line(
+//                    pane.getWidth()/2 + (baseCircleSize)* FastMath.sin(i) + (wacky * 200 * FastMath.sin(((int)slider.getValue())*0.1*i))
+//                    ,pane.getHeight()/2 + (baseCircleSize)*FastMath.cos(i) + (wacky * 200 * FastMath.cos(((int)slider.getValue())*0.1*i))
+//                    ,0.5*pane.getWidth() + FastMath.sin(2*i+(0.1*total)) * 0.5* pane.getWidth()
+//                    ,0.5*pane.getHeight() + 0.5*pane.getHeight() * FastMath.sin(i)
+//                    , Color.hsb(.4*total, 1.0, FastMath.abs(FastMath.sin(i+(.002*total))*0.8))
+//                    //, new Color (0, FastMath.abs(FastMath.sin(i+(.002*total))*0.8), 0, 1)
+//            );
+//        }
+//
         total++;
     }
 
