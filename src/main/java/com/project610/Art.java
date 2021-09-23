@@ -4,6 +4,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,6 +23,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.apache.commons.math3.util.FastMath;
 
 import java.util.Arrays;
 
@@ -45,6 +47,10 @@ public class Art extends Application implements EventHandler<ActionEvent> {
 
         // Buncha boring
         primaryStage = stage;
+        primaryStage.setOnCloseRequest(e-> {
+            Platform.exit();
+            System.exit(0);
+        });
         primaryStage.setTitle("'Art'");
         primaryStage.setScene(new Scene(pane, 700, 700));
         primaryStage.show();
@@ -117,30 +123,30 @@ public class Art extends Application implements EventHandler<ActionEvent> {
         // Heart thing (Math is hard)
 //        for (double k = -1; k < 1; k+= 0.025) {
 //            double x = (k+0.05*total%3.5)-2;
-//            double y = Math.sqrt(1-(0.75*Math.abs(x))) + 0.75*Math.abs(x);
+//            double y = FastMath.sqrt(1-(0.75*FastMath.abs(x))) + 0.75*FastMath.abs(x);
 //
 //            double x2 = 0;
 //            double y2 = 0;
 //
 //            // This will make stuff wobbly
-//            x2 = Math.sin(0.1*total+5*k)*10;
-//            y2 = Math.cos(0.1*total+5*k)*10;
+//            x2 = FastMath.sin(0.1*total+5*k)*10;
+//            y2 = FastMath.cos(0.1*total+5*k)*10;
 //
-//            circle(300+x*100 + x2, 620-y*300 + y2, 5, new Color(1,0, clamp(1-Math.sin(k)*0.8),clamp(k/1.5)));
-//            circle(300+x*200 + x2, 1380-y * 900 + y2, 5, new Color(1, 0, clamp(1-Math.sin(k)*0.8), clamp(k/1.5)));
+//            circle(300+x*100 + x2, 620-y*300 + y2, 5, new Color(1,0, clamp(1-FastMath.sin(k)*0.8),clamp(k/1.5)));
+//            circle(300+x*200 + x2, 1380-y * 900 + y2, 5, new Color(1, 0, clamp(1-FastMath.sin(k)*0.8), clamp(k/1.5)));
 //        }
 
         // Sine wave road thing
 //        for (double i = 0; i < 150; i++) {
 //            for (double j = 3; j >= 0; j--) {
 //                double x = 10 * i;
-//                double y = pane.getHeight()/2 - 50*Math.sin(i/5 + 0.1*total);
+//                double y = pane.getHeight()/2 - 50*FastMath.sin(i/5 + 0.1*total);
 //                circle(
 //                        x -7*j
 //                        , y + 7*j
 //                        ,
 //                        10
-//                        , new Color(Math.abs(Math.sin(i)) / (1+j/3),0,0.5* Math.abs(Math.cos(i)) / (1+j/3), 1)
+//                        , new Color(FastMath.abs(FastMath.sin(i)) / (1+j/3),0,0.5* FastMath.abs(FastMath.cos(i)) / (1+j/3), 1)
 //                );
 //            }
 //        }
@@ -150,14 +156,14 @@ public class Art extends Application implements EventHandler<ActionEvent> {
 //        double bubbleRadius = 14;
 //        rect(0, 0, pane.getWidth(), pane.getHeight(), new Color(0.1, 0.3, 0.6, 1));
 //        for (int i = 0; i < slider.getValue()*10; i++) {
-//            double x = i*40 + Math.sin(0.2*total + 12*i)*5;
-//            double y = Math.max(0.5, Math.abs(Math.cos(7*i)) * 2.5);
+//            double x = i*40 + FastMath.sin(0.2*total + 12*i)*5;
+//            double y = FastMath.max(0.5, FastMath.abs(FastMath.cos(7*i)) * 2.5);
 //            circle(
 //                    -50 + x % (pane.getWidth() + 100)
-//                    , (pane.getHeight()+bubbleRadius) - ((Math.pow(i, 2) + y * total)) % (pane.getHeight() + 2*bubbleRadius)
+//                    , (pane.getHeight()+bubbleRadius) - ((FastMath.pow(i, 2) + y * total)) % (pane.getHeight() + 2*bubbleRadius)
 //                    , bubbleRadius
-//                    , new Color (1,1,1,0.3 + Math.sin(i) * 0.2)
-//                    , new Color(0.9 + (0.1*Math.sin(i)), 0.9 + (0.1*Math.sin(i)), 1, 0.8));
+//                    , new Color (1,1,1,0.3 + FastMath.sin(i) * 0.2)
+//                    , new Color(0.9 + (0.1*FastMath.sin(i)), 0.9 + (0.1*FastMath.sin(i)), 1, 0.8));
 //        }
 
         // Cool spinny lines circle thing
@@ -165,12 +171,12 @@ public class Art extends Application implements EventHandler<ActionEvent> {
         int wacky = ((int)slider.getValue() == 0) ? 0 : 1;
         for (double i = 0; i < 200; i += 0.25) {
             line(
-                    pane.getWidth()/2 + (baseCircleSize)*Math.sin(i) + (wacky * 200 * Math.sin(((int)slider.getValue())*0.1*i))
-                    ,pane.getHeight()/2 + (baseCircleSize)*Math.cos(i) + (wacky * 200 * Math.cos(((int)slider.getValue())*0.1*i))
-                    ,0.5*pane.getWidth() + Math.sin(2*i+(0.1*total)) * 0.5* pane.getWidth()
-                    ,0.5*pane.getHeight() + 0.5*pane.getHeight() * Math.sin(i)
-                    , Color.hsb(.4*total, 1.0, Math.abs(Math.sin(i+(.002*total))*0.8))
-                    //, new Color (0, Math.abs(Math.sin(i+(.002*total))*0.8), 0, 1)
+                    pane.getWidth()/2 + (baseCircleSize)* FastMath.sin(i) + (wacky * 200 * FastMath.sin(((int)slider.getValue())*0.1*i))
+                    ,pane.getHeight()/2 + (baseCircleSize)*FastMath.cos(i) + (wacky * 200 * FastMath.cos(((int)slider.getValue())*0.1*i))
+                    ,0.5*pane.getWidth() + FastMath.sin(2*i+(0.1*total)) * 0.5* pane.getWidth()
+                    ,0.5*pane.getHeight() + 0.5*pane.getHeight() * FastMath.sin(i)
+                    , Color.hsb(.4*total, 1.0, FastMath.abs(FastMath.sin(i+(.002*total))*0.8))
+                    //, new Color (0, FastMath.abs(FastMath.sin(i+(.002*total))*0.8), 0, 1)
             );
         }
 
@@ -192,7 +198,7 @@ public class Art extends Application implements EventHandler<ActionEvent> {
 
         // Ornaments on back
         for (double i = state; i >= 0; i-= 50) {
-            if (Math.cos((i+total)/tiers) <= 0.55) continue;
+            if (FastMath.cos((i+total)/tiers) <= 0.55) continue;
             double x = christmasTree_ornament_getX(i, tiers);
             double y = christmasTree_ornament_getY(i, tiers);
             double x0 = christmasTree_ornament_getX(i-1, tiers);
@@ -201,7 +207,7 @@ public class Art extends Application implements EventHandler<ActionEvent> {
             double red = 0, green = 0, blue = 0;
             int colourScale = 167;
 
-            red += Math.abs((-0.5 * Math.cos(i/10))*2)/1.25;
+            red += FastMath.abs((-0.5 * FastMath.cos(i/10))*2)/1.25;
             //green += state%100;
             //blue += state/(i%200);
             fill = new Color (clamp(red), clamp(green), clamp(blue),1);
@@ -224,9 +230,9 @@ public class Art extends Application implements EventHandler<ActionEvent> {
             double red = 0, green = 0, blue = 0;
             int colourScale = 167;
 
-            red += 0.1 + 0.2 * Math.cos((i+total)/tiers);
-            green += 0.65  + 0.45 * Math.cos((i+total)/tiers);
-            blue += 0.1 + 0.2 * Math.cos((i+total)/tiers);
+            red += 0.1 + 0.2 * FastMath.cos((i+total)/tiers);
+            green += 0.65  + 0.45 * FastMath.cos((i+total)/tiers);
+            blue += 0.1 + 0.2 * FastMath.cos((i+total)/tiers);
             fill = new Color (clamp(red), clamp(green), clamp(blue),1);
             stroke = null;
 
@@ -240,7 +246,7 @@ public class Art extends Application implements EventHandler<ActionEvent> {
 
         // Ornaments on front
         for (double i = state; i >= 0; i -= 50) {
-            if (Math.cos((i+total)/tiers) >= 0) continue;
+            if (FastMath.cos((i+total)/tiers) >= 0) continue;
             double x = christmasTree_ornament_getX(i, tiers);
             double y = christmasTree_ornament_getY(i, tiers);
             double x0 = christmasTree_ornament_getX(i-1, tiers);
@@ -249,7 +255,7 @@ public class Art extends Application implements EventHandler<ActionEvent> {
             double red = 0, green = 0, blue = 0;
             int colourScale = 167;
 
-            red += Math.abs((-0.5 * Math.cos(i/10))*2);
+            red += FastMath.abs((-0.5 * FastMath.cos(i/10))*2);
             //green += state%100;
             //blue += state/(i%200);
             fill = new Color (clamp(red), clamp(green), clamp(blue),1);
@@ -270,7 +276,7 @@ public class Art extends Application implements EventHandler<ActionEvent> {
     }
 
     private double christmasTree_getX(double i, double tiers) {
-        return i/10 * Math.sin((i+total)/tiers) * (i/3 + i % (maxState/(tiers-0.1))) / 300;
+        return i/10 * FastMath.sin((i+total)/tiers) * (i/3 + i % (maxState/(tiers-0.1))) / 300;
     }
 
     private double christmasTree_getY(double i, double tiers) {
@@ -278,7 +284,7 @@ public class Art extends Application implements EventHandler<ActionEvent> {
     }
 
     private double christmasTree_ornament_getX(double i, double tiers) {
-        return -1 * i/10 * Math.sin((i+total)/tiers) * (i/3 + i % (maxState/(tiers-0.1))) / 300;
+        return -1 * i/10 * FastMath.sin((i+total)/tiers) * (i/3 + i % (maxState/(tiers-0.1))) / 300;
     }
 
     private double christmasTree_ornament_getY(double i, double tiers) {
@@ -294,24 +300,24 @@ public class Art extends Application implements EventHandler<ActionEvent> {
         double midX = pane.getWidth()/2, midY = pane.getHeight()/2;
 
         for (double i = 0; i < state; i++) {
-            double  x = (Math.sin(Math.abs((Math.pow(total,0.5)+i)/Math.sin((int) slider.getValue()))) * Math.pow(i,0.8) * Math.pow(Math.tan(Math.abs(Math.sin(i/10))),1/Math.log(i+10*total))),
-                    y = (Math.cos(Math.abs((Math.pow(total,0.5)+i)/Math.cos((int) slider.getValue()))) * Math.pow(i,0.8) * Math.pow(Math.tan(Math.abs(Math.cos(i/10))),1/Math.log(i+10*total)));
+            double  x = (FastMath.sin(FastMath.abs((FastMath.pow(total,0.5)+i)/FastMath.sin((int) slider.getValue()))) * FastMath.pow(i,0.8) * FastMath.pow(FastMath.tan(FastMath.abs(FastMath.sin(i/10))),1/FastMath.log(i+10*total))),
+                    y = (FastMath.cos(FastMath.abs((FastMath.pow(total,0.5)+i)/FastMath.cos((int) slider.getValue()))) * FastMath.pow(i,0.8) * FastMath.pow(FastMath.tan(FastMath.abs(FastMath.cos(i/10))),1/FastMath.log(i+10*total)));
 
-            x /= Math.max(1, y / 25);
+            x /= FastMath.max(1, y / 25);
 
             double i0 = i-1;
-            double  x0 = (Math.sin(Math.abs((Math.pow(total,0.5)+i0)/Math.sin((int) slider.getValue()))) * Math.pow(i0,0.8) * Math.pow(Math.tan(Math.abs(Math.sin(i0/10))),1/Math.log(i0+10*total))),
-                    y0 = (Math.cos(Math.abs((Math.pow(total,0.5)+i0)/Math.cos((int) slider.getValue()))) * Math.pow(i0,0.8) * Math.pow(Math.tan(Math.abs(Math.cos(i0/10))),1/Math.log(i0+10*total)));
+            double  x0 = (FastMath.sin(FastMath.abs((FastMath.pow(total,0.5)+i0)/FastMath.sin((int) slider.getValue()))) * FastMath.pow(i0,0.8) * FastMath.pow(FastMath.tan(FastMath.abs(FastMath.sin(i0/10))),1/FastMath.log(i0+10*total))),
+                    y0 = (FastMath.cos(FastMath.abs((FastMath.pow(total,0.5)+i0)/FastMath.cos((int) slider.getValue()))) * FastMath.pow(i0,0.8) * FastMath.pow(FastMath.tan(FastMath.abs(FastMath.cos(i0/10))),1/FastMath.log(i0+10*total)));
 
-            x0 /= Math.max(1, y0 / 25);
+            x0 /= FastMath.max(1, y0 / 25);
 
             //stroke = null;
 
             double red = 0, green = 0, blue = 0;
             int colourScale = 167;
-            red = clamp(0.5 + Math.cos(Math.toRadians((total+i)/11.1*4)));
-            green = clamp(0.5 + Math.cos(Math.toRadians(((total+i)+2*colourScale)/11.1*4)));
-            blue = clamp(0.5 + Math.cos(Math.toRadians(((total+i)+4*colourScale)/11.1*4)));
+            red = clamp(0.5 + FastMath.cos(FastMath.toRadians((total+i)/11.1*4)));
+            green = clamp(0.5 + FastMath.cos(FastMath.toRadians(((total+i)+2*colourScale)/11.1*4)));
+            blue = clamp(0.5 + FastMath.cos(FastMath.toRadians(((total+i)+4*colourScale)/11.1*4)));
             fill = new Color (clamp(red), clamp(green), clamp(blue),1);
 
             x = midX + x;
@@ -338,7 +344,7 @@ public class Art extends Application implements EventHandler<ActionEvent> {
 
     // Return value between specified min and max
     private double clamp(double n, double min, double max) {
-        return Math.max(Math.min(n,max),min);
+        return FastMath.max(FastMath.min(n,max),min);
     }
 
     private void clearPane() {
